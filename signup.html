@@ -128,6 +128,33 @@
         By signing up, you agree to our Terms and Privacy Policy.
     </div>
 </div>
+<script>
+async function handleSignup(event) {
+    event.preventDefault(); // Prevents the page from refreshing
+    
+    const emailValue = document.querySelector('input[type="email"]').value;
 
+    try {
+        const response = await fetch('/api/send-otp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: emailValue }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            alert("OTP Sent! Check your inbox.");
+        } else {
+            alert("Error: " + result.error);
+        }
+    } catch (err) {
+        console.error("Fetch error:", err);
+        alert("Failed to connect to the server.");
+    }
+}
+</script>
 </body>
 </html>
